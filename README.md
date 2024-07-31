@@ -49,4 +49,7 @@ To deploy the private NFT contract to the Swisstronik network, use the following
 
 ```bash
 npx hardhat run scripts/deploy.js --network swisstronik
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7165436 (update)

@@ -1,134 +1,52 @@
-# Swisstronik Tesnet Techinal Task 5 (Deploy Private NFT)
+# Swisstronik Deploy Private NFT
 
-link : [Click!](https://www.swisstronik.com/testnet2/dashboard)
+## Description
 
-Feel free donate to my EVM address
+This repository contains scripts and configurations for deploying a private NFT contract using Swisstronik. The contract allows for the creation and management of NFT tokens privately on the Swisstronik network.
 
-EVM :
+## Prerequisites
 
-```bash
-0x9902C3A98Df4b240ad5496cC26F89bAb8058f4aE
-```
+Ensure you have the following requirements before getting started:
 
-## Steps
+- **Node.js**: Version 14 or higher. [Download Node.js](https://nodejs.org/).
+- **npm**: Typically installed with Node.js.
+- **Hardhat**: A framework for Ethereum smart contract development. [Hardhat Documentation](https://hardhat.org/getting-started/).
+- **Swisstronik CLI**: Install the Swisstronik CLI if needed for deployment on the Swisstronik network. [Swisstronik CLI Installation](https://www.swisstronik.com/docs/cli).
 
-### 1. Clone Repository
+## Installation
 
-```bash
-git clone https://github.com/Mnuralim/swisstronik-deploy-private-nft.git
-```
-```bash
-cd swisstronik-deploy-private-nft
-```
+1. **Clone the Repository**
 
-### 2. Install Dependency
+    ```bash
+    git clone https://github.com/yfndx/swisstronik-deploy-private-nft.git
+    cd swisstronik-deploy-private-nft
+    ```
 
-```bash
-npm install
-```
+2. **Install Dependencies**
 
-### 3. Set .env File
+    ```bash
+    npm install
+    ```
 
-create .env file in root project
+## Configuration
 
-```bash
-touch .env
-```
+1. **Set Environment Variables**
 
-add this to your .env file
-```bash
-PRIVATE_KEY="your private key"
-```
+    Create a `.env` file in the root directory of the project and add the following information:
 
-### 4. Update Smart Contract (Skipp if you won't modify NFT name)
+    ```
+    SWISSTRONIK_API_KEY=your_swisstronik_api_key
+    PRIVATE_KEY=your_private_key
+    ```
 
-- Open contracts folder
-- Open PrivateNft.sol file
-- Feel free to modify token name and token symbol
+2. **Configure Hardhat**
 
-```
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+    Adjust the Hardhat configuration file (`hardhat.config.js`) if necessary, especially regarding network and account settings.
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+## Deployment
 
-contract PrivateNFT is ERC721, Ownable {
-    uint256 private _currentTokenId = 0;
-
-    event NFTMinted(address recipient, uint256 tokenId);
-    event NFTBurned(uint256 tokenId);
-
-    constructor(address initialOwner) ERC721("IzzyPrivate", "IZZPRVT") Ownable(initialOwner) {}
-
-    function mintNFT(address recipient) public onlyOwner returns (uint256) {
-        _currentTokenId += 1;
-        uint256 newItemId = _currentTokenId;
-        _mint(recipient, newItemId);
-
-        emit NFTMinted(recipient, newItemId);
-        return newItemId;
-    }
-
-    function burnNFT(uint256 tokenId) public {
-        require(ownerOf(tokenId) == msg.sender, "Error: You're not owner");
-        _burn(tokenId);
-        emit NFTBurned(tokenId);
-
-    }
-
-    function balanceOf(address account) public view override returns (uint256) {
-        require(msg.sender == account, "Error: You're not owner");
-        return super.balanceOf(account);
-    }
-}
-
-```
-
-### 5. Compile Smart Contract
+To deploy the private NFT contract to the Swisstronik network, use the following command:
 
 ```bash
-npm run compile
-```
+npx hardhat run scripts/deploy.js --network swisstronik
 
-### 6. Deploy Smart Contract
-
-```bash
-npm run deploy
-```
-
-### 7. Mint Token
-
-```bash
-npm run mint
-```
-
-### 8. Finsihed
-
-- Open the deployed-adddress.ts (location in utils folder)
-- Copy the address and paste the address into testnet dashboard
-- push this project to your github and paste your repository link in testnet dashboard
-  
- #how to push ? 
-```bash
-git init
-```
-```bash
-git add .
-```
-```bash
-git remote set-url origin your_repo_link
-```
-```bash
-git branch -M main
-```
-```bash
-git push -u origin main
-```
-
-by :
-github : [Mnuralim](https://github.com/Mnuralim)
-twitter : @Izzycracker04
-telegram : @fitriay19
-
-//0x5cED43F3224e3F7C7EFA6ABdE9A960A44E3B2dD9// ignore this
